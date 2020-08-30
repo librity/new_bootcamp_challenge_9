@@ -5,37 +5,37 @@ import ICreateCustomerDTO from '@modules/customers/dtos/ICreateCustomerDTO';
 import Customer from '../entities/Customer';
 
 class CustomersRepository implements ICustomersRepository {
-  private ormRepository: Repository<Customer>;
+  private customersRepo: Repository<Customer>;
 
   constructor() {
-    this.ormRepository = getRepository(Customer);
+    this.customersRepo = getRepository(Customer);
   }
 
   public async create({ name, email }: ICreateCustomerDTO): Promise<Customer> {
-    const customer = this.ormRepository.create({
+    const customer = this.customersRepo.create({
       name,
       email,
     });
 
-    await this.ormRepository.save(customer);
+    await this.customersRepo.save(customer);
 
     return customer;
   }
 
   public async findById(id: string): Promise<Customer | undefined> {
-    const findCustomer = await this.ormRepository.findOne(id);
+    const customer = await this.customersRepo.findOne(id);
 
-    return findCustomer;
+    return customer;
   }
 
   public async findByEmail(email: string): Promise<Customer | undefined> {
-    const findCustomer = await this.ormRepository.findOne({
+    const customer = await this.customersRepo.findOne({
       where: {
         email,
       },
     });
 
-    return findCustomer;
+    return customer;
   }
 }
 
